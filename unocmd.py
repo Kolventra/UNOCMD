@@ -62,7 +62,7 @@ def unoCheck(hand, player):
     else:
       print("THE OPPONENT HAS UNO!")
 
-def winCheck(selfHand, opponentHands, Isplaying, player):
+def winCheck(selfHand, opponentHands, player):
   if len(selfHand) == 0:
     if player == "player":
       print("YOU WIN!")
@@ -70,7 +70,9 @@ def winCheck(selfHand, opponentHands, Isplaying, player):
       print("THE OPPONENT WON!")
     for hand in opponentHands:
       hand = []
-    Isplaying = False
+    return False
+  else: 
+    return True
 
 inApp = True 
 while inApp: # run until exited
@@ -150,21 +152,21 @@ while inApp: # run until exited
               currentAction = currentCard.action
               playerHand.pop(int(select))
               unoCheck(playerHand, "player")
-              winCheck(playerHand, [opponentHand], isPlaying, "player")
+              isPlaying = winCheck(playerHand, [opponentHand], "player")
             else:
               currentCard = cardPlaying
               currentColor = currentCard.color
               currentAction = currentCard.action
               playerHand.pop(int(select))
               unoCheck(playerHand, "player")
-              winCheck(playerHand, [opponentHand], isPlaying, "player")
+              isPlaying = winCheck(playerHand, [opponentHand], "player")
               currentlyPlaying = "opponent"
           continue
             
       if cmd == "?":
-        print("?: List of commands \n changes: Game change log \n info: Info about the current game \n play: Play a card \n exit: Exit game \n UNOCMD v0.01 BETA")
+        print("?: List of commands \n changes: Game change log \n info: Info about the current game \n play: Play a card \n exit: Exit game \n UNOCMD v0.01")
       if cmd == "changes":
-        print("-added the change log \n -got AI working \n -added win state \n -first private release")
+        print("-added the change log \n -got AI working \n -added win state \n -first release")
       if cmd == "exit":
         print("Thanks for playing!")
         isPlaying = False
@@ -229,7 +231,7 @@ while inApp: # run until exited
                 print("The current color is now %s!" % currentColor)
                 opponentHand.remove(card)
                 unoCheck(opponentHand, "opponent")
-                winCheck(opponentHand, [playerHand], isPlaying, "opponent")
+                isPlaying = winCheck(opponentHand, [playerHand], "opponent")
                 if currentAction == "WILD_DRAW_FOUR":
                   drawCards(playerHand, 4)
                   print("Sorry, you draw 4 cards.")
@@ -248,7 +250,7 @@ while inApp: # run until exited
                 print("The current color is now %s!" % currentColor)
                 opponentHand.remove(card)
                 unoCheck(opponentHand, "opponent")
-                winCheck(opponentHand, [playerHand], isPlaying, "opponent")
+                isPlaying = winCheck(opponentHand, [playerHand], "opponent")
                 if currentAction == "WILD_DRAW_FOUR":
                   drawCards(playerHand, 4)
                   print("Sorry, you draw 4 cards.")
@@ -265,7 +267,7 @@ while inApp: # run until exited
                 print("Sorry, you draw 2 cards.")
                 opponentHand.remove(card)
                 unoCheck(opponentHand, "opponent")
-                winCheck(opponentHand, [playerHand], isPlaying, "opponent")
+                isPlaying = winCheck(opponentHand, [playerHand], "opponent")
                 break
               elif allTheSame:
                 currentCard = card
@@ -275,7 +277,7 @@ while inApp: # run until exited
                 print("Sorry, you draw 2 cards.")
                 opponentHand.remove(card)
                 unoCheck(opponentHand, "opponent")
-                winCheck(opponentHand, [playerHand], isPlaying, "opponent")
+                isPlaying = winCheck(opponentHand, [playerHand], "opponent")
                 break
             elif "SKIP" in card.action:
               currentCard = card
@@ -284,7 +286,7 @@ while inApp: # run until exited
               print("Sorry, you were skipped.")
               opponentHand.remove(card)
               unoCheck(opponentHand, "opponent")
-              winCheck(opponentHand, [playerHand], isPlaying, "opponent")
+              isPlaying = winCheck(opponentHand, [playerHand], "opponent")
               break
             elif "REVERSE" in card.action:
               currentCard = card
@@ -293,7 +295,7 @@ while inApp: # run until exited
               print("Sorry, the player order was reversed.")
               opponentHand.remove(card)
               unoCheck(opponentHand, "opponent")
-              winCheck(opponentHand, [playerHand], isPlaying, "opponent")
+              isPlaying = winCheck(opponentHand, [playerHand], "opponent")
               break
             else:
               if allTheSame or possibleCards[len(possibleCards) - 1] == card:
@@ -302,7 +304,7 @@ while inApp: # run until exited
                 currentAction = card.action
                 opponentHand.remove(card)
                 unoCheck(opponentHand, "opponent")
-                winCheck(opponentHand, [playerHand], isPlaying, "opponent")
+                isPlaying = winCheck(opponentHand, [playerHand], "opponent")
                 computerFinishMove()
                 currentlyPlaying = "player"
                 break
